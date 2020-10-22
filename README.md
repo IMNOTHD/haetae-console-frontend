@@ -1,5 +1,7 @@
 # haetae-console-frontend
 
+此项目为haetae的后台管理系统的前端部分
+
 ## Project setup
 ```
 yarn install
