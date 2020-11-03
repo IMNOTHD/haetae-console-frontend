@@ -1,5 +1,5 @@
 <template>
-  <!--这里marginTop: '-4px'的目的是干掉基础组件的空白, 否则留个空白会对不齐-->
+  <!--这里marginTop: '-4px'的目的是干掉基础组件的空白, 否则会对不齐-->
   <a-menu theme="dark" :default-selected-keys="['1']" mode="inline" :style="{ marginTop: '-4px' }" @click="menuClicked">
     <a-menu-item key="1">
       <a-icon type="pie-chart"/>
