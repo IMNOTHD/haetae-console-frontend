@@ -1,39 +1,38 @@
 <template>
   <!--这里marginTop: '-4px'的目的是干掉基础组件的空白, 否则会对不齐-->
-  <a-menu theme="dark" :default-selected-keys="['1']" mode="inline" :style="{ marginTop: '-4px' }" @click="menuClicked">
-    <a-menu-item key="1">
-      <a-icon type="pie-chart"/>
-      <span>{{ label["1"] }}</span>
-    </a-menu-item>
-    <a-menu-item key="2">
+  <a-menu
+      theme="dark"
+      :default-selected-keys="['index']"
+      :defaultOpenKeys="['activitySub', 'systemControlSub']"
+      mode="inline"
+      :style="{ marginTop: '-4px' }"
+      @click="menuClicked">
+    <a-menu-item key="index">
       <a-icon type="desktop"/>
-      <span>{{ label["2"] }}</span>
+      <span>{{ label["index"] }}</span>
     </a-menu-item>
-    <a-sub-menu key="sub1">
-      <span slot="title"><a-icon type="user"/><span>{{ label["sub1"] }}</span></span>
-      <a-menu-item key="3">
-        {{ label["3"] }}
+    <a-sub-menu key="activitySub">
+      <span slot="title"><a-icon type="bank"/><span>{{ label["activitySub"] }}</span></span>
+      <a-menu-item key="activityInsert">
+        <a-icon type="cloud"/>
+        {{ label["activityInsert"] }}
       </a-menu-item>
-      <a-menu-item key="4">
-        {{ label["4"] }}
-      </a-menu-item>
-      <a-menu-item key="5">
-        {{ label["5"] }}
+      <a-menu-item key="activityStateControl">
+        <a-icon type="fire"/>
+        {{ label["activityStateControl"] }}
       </a-menu-item>
     </a-sub-menu>
-    <a-sub-menu key="sub2">
-      <span slot="title"><a-icon type="team"/><span>{{ label["sub2"] }}</span></span>
-      <a-menu-item key="6">
-        {{ label["6"] }}
+    <a-sub-menu key="systemControlSub">
+      <span slot="title"><a-icon type="setting"/><span>{{ label["systemControlSub"] }}</span></span>
+      <a-menu-item key="personalCenter">
+        <a-icon type="api"/>
+        {{ label["personalCenter"] }}
       </a-menu-item>
-      <a-menu-item key="8">
-        {{ label["8"] }}
+      <a-menu-item key="accessControl">
+        <a-icon type="branches"/>
+        {{ label["accessControl"] }}
       </a-menu-item>
     </a-sub-menu>
-    <a-menu-item key="9">
-      <a-icon type="file"/>
-      <span>{{ label["9"] }}</span>
-    </a-menu-item>
   </a-menu>
 </template>
 
@@ -43,16 +42,14 @@ export default {
   data() {
     return {
       label: {
-        "1": "Option 1",
-        "2": "Option 2",
-        "3": "Tom",
-        "4": "Bill",
-        "5": "Alex",
-        "6": "Team 1",
-        "8": "Team 2",
-        "9": "File",
-        "sub1": "User",
-        "sub2": "Team",
+        "index": "首页",
+        "activitySub": "活动管理",
+        "activityInsert": "创建活动",
+        "activityStateControl": "状态管理",
+        "tableControl": "业务报表",
+        "systemControlSub": "系统管理",
+        "personalCenter": "个人中心",
+        "accessControl": "权限管理",
       }
     }
   },

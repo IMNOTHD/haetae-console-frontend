@@ -8,6 +8,7 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import Vuex from 'vuex'
 import store from '@/store'
+import VueCookies from 'vue-cookies'
 
 Vue.config.productionTip = false
 
@@ -15,6 +16,7 @@ Vue.use(Antd)
 Vue.use(VueRouter)
 Vue.use(Vuetify)
 Vue.use(Vuex)
+Vue.use(VueCookies)
 
 const router = new VueRouter({
     mode: 'history',
