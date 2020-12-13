@@ -3,34 +3,35 @@
   <a-menu
       theme="dark"
       :default-selected-keys="['index']"
-      :defaultOpenKeys="['activitySub', 'systemControlSub']"
+      :defaultOpenKeys="['Activity', 'SystemControl']"
       mode="inline"
       :style="{ marginTop: '-4px' }"
-      @click="menuClicked">
-    <a-menu-item key="index">
+      @click="menuClicked"
+      :selectedKeys="selectedKeys">
+    <a-menu-item key="index" @click="$router.push('/')">
       <a-icon type="desktop"/>
       <span>{{ label["index"] }}</span>
     </a-menu-item>
-    <a-sub-menu key="activitySub">
-      <span slot="title"><a-icon type="bank"/><span>{{ label["activitySub"] }}</span></span>
-      <a-menu-item key="activityInsert">
+    <a-sub-menu key="Activity">
+      <span slot="title"><a-icon type="bank"/><span>{{ label["Activity"] }}</span></span>
+      <a-menu-item key="ActivityCreate" @click="$router.push('/Activity/ActivityCreate')">
         <a-icon type="cloud"/>
-        {{ label["activityInsert"] }}
+        {{ label["ActivityCreate"] }}
       </a-menu-item>
-      <a-menu-item key="activityStateControl">
+      <a-menu-item key="StateControl" @click="$router.push('/Activity/StateControl')">
         <a-icon type="fire"/>
-        {{ label["activityStateControl"] }}
+        {{ label["StateControl"] }}
       </a-menu-item>
     </a-sub-menu>
-    <a-sub-menu key="systemControlSub">
-      <span slot="title"><a-icon type="setting"/><span>{{ label["systemControlSub"] }}</span></span>
-      <a-menu-item key="personalCenter">
+    <a-sub-menu key="SystemControl">
+      <span slot="title"><a-icon type="setting"/><span>{{ label["SystemControl"] }}</span></span>
+      <a-menu-item key="PersonalCenter" @click="$router.push('/SystemControl/PersonalCenter')">
         <a-icon type="api"/>
-        {{ label["personalCenter"] }}
+        {{ label["PersonalCenter"] }}
       </a-menu-item>
-      <a-menu-item key="accessControl">
+      <a-menu-item key="AuthorityControl" @click="$router.push('/SystemControl/AuthorityControl')">
         <a-icon type="branches"/>
-        {{ label["accessControl"] }}
+        {{ label["AuthorityControl"] }}
       </a-menu-item>
     </a-sub-menu>
   </a-menu>
@@ -43,22 +44,49 @@ export default {
     return {
       label: {
         "index": "首页",
-        "activitySub": "活动管理",
-        "activityInsert": "创建活动",
-        "activityStateControl": "状态管理",
-        "tableControl": "业务报表",
-        "systemControlSub": "系统管理",
-        "personalCenter": "个人中心",
-        "accessControl": "权限管理",
-      }
+        "Activity": "活动管理",
+        "ActivityCreate": "创建活动",
+        "StateControl": "状态管理",
+        "SystemControl": "系统管理",
+        "PersonalCenter": "个人中心",
+        "AuthorityControl": "权限管理",
+      },
+      selectedKeys: ["index"],
     }
   },
   mounted() {
-    this.$store.commit('setMenuLabelPathSelected', [this.label["1"]])
+    let labelLoaded = ["index"];
+    let path = this.$route.path;
+
+    if (path !== "/") {
+      labelLoaded = [];
+      if (path.substr(path.length - 1) !== "/") {
+        path = path + '/';
+      }
+
+      let patternPath = "";
+      for (let i = 1; i < path.length; i++) {
+        if (path[i] === "/") {
+          labelLoaded.push(patternPath);
+          patternPath = "";
+        } else {
+          patternPath = patternPath + path[i];
+        }
+      }
+    }
+
+    this.selectedKeys = [labelLoaded[labelLoaded.length - 1]];
+
+    for (let i = 0; i < labelLoaded.length; i++) {
+      labelLoaded[i] = this.label[labelLoaded[i]];
+    }
+    this.$store.commit('setMenuLabelPathSelected', labelLoaded);
   },
   methods: {
     // eslint-disable-next-line no-unused-vars
     menuClicked({item, key, keyPath}) {
+      this.selectedKeys = [key];
+
       // 注意: 这里的keyPath, 越小项排在越前面
       let realLabel = [];
       for (const keyPathKey of keyPath) {

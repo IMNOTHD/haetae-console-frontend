@@ -17,18 +17,24 @@
         <AvatarDropdown/>
       </a-layout-header>
       <a-layout-content style="margin: 0 16px">
-        <a-breadcrumb style="margin: 16px 0">
-          <a-breadcrumb-item v-for="(item, index) in $store.state.menuLabelPathSelected" v-bind:key="index">
-            {{ item }}
-          </a-breadcrumb-item>
-        </a-breadcrumb>
-        <div :style="{ padding: '24px', background: '#fff', minHeight: '360px', height: '100%' }">
-          Bill is a cat.<br>
-        </div>
+        <a-layout style="height: 100%">
+          <a-layout-header class="inner-header">
+          <a-breadcrumb style="margin: 16px 0">
+            <a-breadcrumb-item v-for="(item, index) in $store.state.menuLabelPathSelected" v-bind:key="index">
+              {{ item }}
+            </a-breadcrumb-item>
+          </a-breadcrumb>
+          </a-layout-header>
+          <a-layout-content>
+          <div :style="{ background: '#fff', minHeight: '360px', height: '100%' }">
+            <router-view></router-view>
+          </div>
+          </a-layout-content>
+          <a-layout-footer style="text-align: center">
+            第二课堂 ©2020 Created by <i>β-House</i>
+          </a-layout-footer>
+        </a-layout>
       </a-layout-content>
-      <a-layout-footer style="text-align: center">
-        第二课堂 ©2020 Created by <i>β-House</i>
-      </a-layout-footer>
     </a-layout>
     <a-back-top>
       <div class="ant-back-top-inner">
@@ -48,7 +54,6 @@ export default {
   data() {
     return {
       collapsed: false,
-      x: "https://thirdwx.qlogo.cn/mmopen/vi_32/Sx8r4ibpk1BZFQOPZda4f8yyI6mg4Wq1iaibhET6RIBk4grTkBD5awUXS4efyO8Y9RnuwnjUOLmq6skMQIibH2hcCA/132"
     };
   },
   beforeCreate() {
@@ -71,7 +76,7 @@ export default {
       this.$error({
         title: '错误',
         content: h('div', {}, [
-          h('p', `调用接口发生严重错误：${result.data.errorMsg}`),
+          h('p', `调用接口发生错误：${result.data.errorMsg}`),
           h('p', '将在3秒后返回登录页面...'),
         ]),
         keyboard: false,
@@ -109,6 +114,12 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.inner-header {
+  height: auto !important;
+  padding: 0 !important;
+  background: none !important;
 }
 
 .ant-back-top-inner {

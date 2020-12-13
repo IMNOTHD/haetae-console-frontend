@@ -110,6 +110,7 @@ export default {
         return;
       }
 
+      //todo 2020-11-22 22:07:08 线上能正常使用set-cookie header, 请移除下面的$cookies.set
       this.$cookies.set("user_token", result.data.data.token);
       //this.$store.commit('setAvatarUrl', result.data.data.avatarUrl);
       //this.$store.commit('setUserInfo', result.data.data["userInfo"]);
