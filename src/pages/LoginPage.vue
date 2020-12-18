@@ -1,56 +1,32 @@
 <template>
-  <!--这个页面的前端框架是vuetify. 为什么用这个呢, 我也不知道.jpg-->
-  <v-app>
-    <v-main class="background-img">
-      <v-container
-          class="fill-height"
-          fluid>
-        <v-row
-            align="center"
-            justify="center">
-          <v-card class="elevation-12" style="min-width: 600px">
-            <v-toolbar
-                color="primary"
-                dark
-                flat>
-              <v-toolbar-title>登录</v-toolbar-title>
-            </v-toolbar>
-            <v-card-text>
-              <v-form>
-                <v-text-field
-                    :autofocus="true"
-                    label="用户名"
-                    name="login"
-                    prepend-icon="mdi-account"
-                    :error-messages="errorMsg"
-                    type="text"
-                    v-model="username"
-                    @keyup.enter="blockLogin"/>
-                <v-text-field
-                    label="密码"
-                    name="password"
-                    prepend-icon="mdi-lock"
-                    :error-messages="errorMsg"
-                    type="password"
-                    v-model="password"
-                    @keyup.enter="blockLogin"/>
-              </v-form>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                  color="primary"
-                  :loading="loading"
-                  :disabled="loading"
-                  @click="blockLogin">
-                登 录
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-row>
-      </v-container>
-    </v-main>
-  </v-app>
+  <a-layout class="background-img full-page">
+    <a-layout-content>
+      <a-card class="center" style="width: 500px" title="登录">
+        <a-form-model :model="loginForm" @submit="blockLogin" @submit.native.prevent>
+          <a-form-model-item>
+            <a-input v-model="loginForm.username" placeholder="用户名" ref="username">
+              <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)"/>
+            </a-input>
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-input v-model="loginForm.password" type="password" placeholder="密码">
+              <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)"/>
+            </a-input>
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-button
+                style="float: right"
+                :loading="loading"
+                type="primary"
+                html-type="submit"
+                :disabled="loginForm.user === '' || loginForm.password === ''">
+              Log in
+            </a-button>
+          </a-form-model-item>
+        </a-form-model>
+      </a-card>
+    </a-layout-content>
+  </a-layout>
 </template>
 
 <script>
@@ -58,12 +34,13 @@ import api from "@/api/api";
 
 export default {
   name: "Login",
-  data () {
+  data() {
     return {
-      loader: null,
       loading: false,
-      username: "",
-      password: "",
+      loginForm: {
+        username: "",
+        password: "",
+      },
       errorMsg: "",
       loginBlock: false,
     }
@@ -79,6 +56,9 @@ export default {
     if (this.$cookies.isKey("user_token")) {
       this.$router.push("/");
     }
+
+    // 自动聚焦
+    this.$refs.username.focus();
   },
   methods: {
     // 锁住login函数, 防止一大堆提交
@@ -89,20 +69,18 @@ export default {
       this.loginBlock = true;
       const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
-      this.loader = 'loading';
       this.loading = true;
       await sleep(500);
 
       await this.onLogin();
 
-      this.loader = null;
       this.loading = false;
       this.loginBlock = false;
     },
     async onLogin() {
       let result = await api.login({
-        username: this.username,
-        password: this.password,
+        username: this.loginForm.username,
+        password: this.loginForm.password,
       });
 
       if (result.data.errorCode !== "200") {
@@ -125,5 +103,25 @@ export default {
 .background-img {
   background: url('../assets/material.jpg') no-repeat;
   background-size: cover;
+}
+
+.full-page {
+  width: 100%;
+  height: 100%;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+>>> .ant-card-head {
+  background-color: rgb(236, 236, 236) !important;
+}
+
+>>> .ant-card-body {
+  padding-bottom: 0 !important;
 }
 </style>

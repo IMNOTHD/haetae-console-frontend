@@ -4,7 +4,7 @@ import qs from "qs"
 axios.defaults.withCredentials = true;
 
 // todo DO NOT FORGET REMOVE URL BEFORE COMMIT
-const baseURL = "";
+const baseURL = "https://hupanyouth.cn";
 
 export default {
     async exampleGetRequest(param = {}) {
