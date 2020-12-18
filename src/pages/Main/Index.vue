@@ -391,7 +391,7 @@ export default {
           backgroundStyle: {
             color: 'rgba(220, 220, 220, 0.8)',
           },
-          barWidth : 30,
+          barWidth: '40%',
           emphasis: emphasisStyle,
           itemStyle: {
             normal: {
